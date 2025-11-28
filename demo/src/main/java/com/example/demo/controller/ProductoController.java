@@ -1,15 +1,14 @@
 package com.example.demo.controller;
 
+import com.example.demo.dto.Materia;
 import com.example.demo.dto.Persona;
 import com.example.demo.dto.ProductoDto;
 import com.example.demo.dto.informacionNumeros;
+import org.apache.coyote.Response;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -217,6 +216,26 @@ public class ProductoController {
         }
         return ResponseEntity.status(HttpStatus.OK)
                 .body(listaPrimos);
-
     }
+
+    @PutMapping(value = "/actualizar-materia", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Materia> actualizarMateria(@RequestBody Materia materia) {
+        materia.setNombre(materia.getNombre().toUpperCase());
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(materia);
+    }
+
+    @PutMapping(value = "/actualizar-calificaciones-minimas", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<List<Materia>> asignarMinimoParaPasar(@RequestBody List<Materia> materias) {
+        for(Materia materia : materias){
+            materia.setMinimoParaPasar(9.0);
+        }
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(materias);
+    }
+
+    // realiza un endpoint que reciba una lista de personas y a todas les aumente la edad en 1 anio, devolviendo la lista actualizada
+
+    // realiza un endpoint que reciba una persona y calcule si como edad tiene un numero primo, debe responder true o false
+
 }
