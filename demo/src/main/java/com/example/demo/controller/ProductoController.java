@@ -2,6 +2,7 @@ package com.example.demo.controller;
 
 import com.example.demo.dto.Persona;
 import com.example.demo.dto.ProductoDto;
+import com.example.demo.dto.informacionNumeros;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -189,5 +190,33 @@ public class ProductoController {
                 .body(productos);
 
     }
+    // Has una clase llamada Información números que tenga 2 campos,
+    // índice y primo,deberás de devolver una lista de esa clase en un
+    // Endpoint donde dicha lista guarde los primero n números primos.
 
+    //Por ejemplo si a tu Endpoint le llega un 3, entonces deberá ser una lista de la clase que represente eso.
+
+    @GetMapping(value = "/obtener-primos{numerosPrimos}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<List<informacionNumeros>> obtenerPrimos(@PathVariable("numerosPrimos") Integer numerosPrimos ){
+        List<informacionNumeros> listaPrimos = new ArrayList<>();
+        int contador = 1;
+            for (int i = 2; i <= numerosPrimos ; i++) {
+                boolean esPrimo = true;
+                for (int j = 2; j <=(i-1) ; j++) {
+                    if(i % j == 0){
+                        esPrimo = false;
+                        break;
+                    }
+
+                }
+                if (esPrimo){
+                    listaPrimos.add(new informacionNumeros(contador,i));
+                    contador++;
+                }
+
+        }
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(listaPrimos);
+
+    }
 }
